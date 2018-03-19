@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="{{ asset('assets/vendor/animate.css/animate.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/vendor/simple-line-icons/css/simple-line-icons.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.css') }}" type="text/css" />
+
+        <link rel="stylesheet" href="{{ asset('assets/template/css/font.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/template/css/app.css') }}" type="text/css" />
+    </head>
+    <body>
+        <div>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            {% else %}
+                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+            {% endif %}
+        </div>
+
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <div>
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+
+    <script src="{{ asset('assets/vendor/jquery/dist/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap/dist/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/template/js/ui-load.js') }}"></script>
+    <script src="{{ asset('assets/template/js/ui-jp.config.js') }}"></script>
+    <script src="{{ asset('assets/template/js/ui-jp.js') }}"></script>
+    <script src="{{ asset('assets/template/js/ui-nav.js') }}"></script>
+    <script src="{{ asset('assets/template/js/ui-toggle.js') }}"></script>
+    <script src="{{ asset('assets/template/js/ui-client.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+<div class="app app-header-fixed ">
+
+
+    <div class="container w-xxl w-auto-xs">
+        <a href class="navbar-brand block m-t">ZENEFITS</a>
+        <div class="m-b-lg">
+{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+        </div>
+    </div>
+
+</div>
+{% endblock fos_user_content %}

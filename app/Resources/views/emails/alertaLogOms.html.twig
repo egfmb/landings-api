@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat:400" />
+    <title>Reporte de Gastos</title>
+</head>
+<style>
+    td {
+        padding:2px;
+    }
+</style>
+<body>
+    <h2>Alerta de comunicación oms </h2>
+    <p>Los siguientes gastos contienen una comunicación inusual con OMS:</p>
+    <div style="margin: 0 50px 0 50px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>No transacciones</th>
+                    <th>expense id</th>                
+                </tr>
+            </thead>
+            <tbody>
+            {% for exp in list %}
+            <tr>
+                <td>{{exp.transactions}}</td>
+                <td>{{exp.expense_id}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

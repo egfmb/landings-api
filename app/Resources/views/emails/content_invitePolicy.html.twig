@@ -1,0 +1,36 @@
+<div>
+    {% if type == 'approve' %}
+        <p style="font-style: italic;color:#808080">Hola <a href="#" style="color:#808080; text-decoration:none " >{{guess_mail}} </a>, <br>
+
+        <a href="mailto:{{guess_mail}}" style="color:#808080; text-decoration:none " > {{owner_mail}} </a>
+          te acaba de invitar a Vualá como aprobador de la empresa {{company}} de la política {{policy_name}}.  
+         <p>    
+
+        <p>Vualá te ayuda a mejorar la rentabilidad de las empresas mediante una administración 
+        fácil de gastos de viáticos. Como aprobador podrás ver cumplimiento con las políticas, 
+        apobar o rechazar los reportes de viáticos, y descargar todos los documentos (XML, PDF, fotos, reportes).
+        </p>
+
+        <p>Bienvenid@ a una organización más eficiente.</p>
+
+
+        <p>Equipo de Vualá</p>
+    {% endif %}
+
+    {% if type == 'admin' %}
+        <p>Hola <a href="#" style="color:#808080; text-decoration:none " >{{guess_mail}} </a>, </p>
+
+        <p>
+        <a href="mailto:{{owner_mail}}" style="color:#808080; text-decoration:none " > {{owner_mail}} </a>
+        te acaba de invitar a Vualá como administrador de la empresa {{company}}. 
+        </p>
+
+        <p> Vualá te ayuda a mejorar la rentabilidad de las empresas mediante un control y administración fácil de gastos de viáticos. 
+        Como admin podrás crear políticas, invitar a otros usuarios, y ver las comprobaciones de gastos completas para su registro contable.
+        </p>
+
+        <p> Bienvenid@ a una organización más eficiente. </p>
+
+        <p>Equipo de Vualá</p>
+    {% endif %}
+</div>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}COLLABORATE{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    </head>
+    <body>
+        {% block header %}
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class=" btn-info navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="./">COLLABORATE</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                        <ul class="nav navbar-nav navbar-right" style="margin-top: 8px;">
+                            <li><span class="btn btn-primary"><a href="{{ app.request.getBaseURL() }}/secure_area/login" style="color:white;">Iniciar Sesión</a> </li></span>
+                            <li><span class="btn btn-default"><a href="{{ app.request.getBaseURL() }}/secure_area/register">Registrarse</a> </li></span>
+
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+
+        {% endblock %}
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+
+        {% block footer %}
+            <section class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4  col-md-4 col-sm-4">
+                            <div class="footer_dv">
+                                <h4>TIKAL</h4>
+                                <ul>
+                                    <li class="line_rv"><a href="#">Acerca de TIKAL</a></li>
+                                    <li><a href="#">Terminos y condiciones</a></li>
+                                    <li><a href="#">Aviso de privacidad</a></li>
+                                    <li><a href="#">Preguntas frecuentes</a></li>
+                                    <li><a href="#">Comisiones</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4  col-md-4 col-sm-4">
+                            <div class="footer_dv">
+                                <h4>Siguenos en</h4>
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-facebook-square fa-2x social"></i> Facebook</a></li>
+                                    <li><a href="#"><i class="fa fa-twitter-square fa-2x social"></i> Twitter</a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus-square fa-2x social"></i> Google+</a></li>
+                                    <li><a href="#"><i class="fa fa-pinterest-square fa-2x social"></i> Pinterest</a></li>
+                                    <li><a href="#"><i class="fa fa-instagram fa-2x social"></i> Instagram</a></li>
+                                    <li><a href="#"><i class="fa fa-youtube-square fa-2x social"></i> Youtube</a></li>
+
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4  col-md-4 col-sm-4">
+                            <div class="footer_dv">
+                                <h4>Contactanos</h4>
+                                <p><a href="mailto:contacto@tikal.com">contacto@tikal.com</a></p>
+                                <p>Tel: 9125772929</p>
+                                <br><br>
+                                <p style="text-align: center;">Suscríbete a nuestro Newsletter<br>
+                                <input type="email" name="newsletter" id="newsletter" placeholder="Correo electronico" class="form-control"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            </footer>
+        {% endblock %}
+
+
+
+        <script>
+            function goTo(section){
+                $('html,body').animate({
+                    scrollTop: $("#"+section).offset().top
+                }, 800);
+
+            }
+
+            $(document).ready(function() {
+                $("#slider").slider({
+                    range: "min",
+                    animate: true,
+                    value: 3000,
+                    min: 1000,
+                    max: 4000,
+                    step: 100,
+                    slide: function(event, ui) {
+                        update(1,ui.value); //changed
+                    }
+                });
+
+                $("#slider2").slider({
+                    range: "min",
+                    animate: true,
+                    value:10,
+                    min: 1,
+                    max: 12,
+                    step: 1,
+                    slide: function(event, ui) {
+                        update(2,ui.value); //changed
+                    }
+                });
+
+                //Added, set initial value.
+                $("#amount").val(3000);
+                $("#duration").val(10);
+                $("#amount-label").text("3000");
+                $("#duration-label").text(10);
+
+                update();
+            });
+
+            //changed. now with parameter
+            function update(slider,val) {
+                //changed. Now, directly take value from ui.value. if not set (initial, will use current value.)
+                var $amount = slider == 1?val:$("#amount").val();
+                var $duration = slider == 2?val:$("#duration").val();
+
+                /* commented
+                 $amount = $( "#slider" ).slider( "value" );
+                 $duration = $( "#slider2" ).slider( "value" );
+                 */
+                var comision = ($amount * .25);
+                var pagar = parseInt($amount) + comision;
+                $total = (pagar / $duration);//($amount * $duration);
+
+
+                $( "#amount" ).val($amount);
+                $( "#amount-label" ).text($amount);
+                $( "#duration" ).val($duration);
+                $( "#duration-label" ).text($duration);
+                if($duration > 1){$( "#mesText" ).text('quincenas');}else{$( "#mesText" ).text('quincena');}
+                $( "#commission" ).val(comision);
+                $( "#commission-label" ).text(comision);
+                $( "#numPagos" ).text($duration);
+                $( "#total" ).val($total);
+                if($duration > 0){
+                    $( "#total-label" ).text("$" + $total.toFixed(2));
+                }
+
+                $('#slider a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$amount+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+                $('#slider2 a').html('<label><span class="glyphicon glyphicon-chevron-left"></span> '+$duration+' <span class="glyphicon glyphicon-chevron-right"></span></label>');
+            }
+
+        </script>
+    </body>
+</html>

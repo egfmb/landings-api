@@ -1,0 +1,9 @@
+<p style="font-style: italic;color:#808080; font-size: 20px">¡Hola <a href="#" style="color:#808080; text-decoration:none "  >{{ email_to }} </a>!</p>
+<br>
+<p>{{reporte_status}} </p>
+
+{% if comment %}
+    <div style="margin-top:20px">
+        <h4> Detalle de rechazo</h4>
+        <p  > {{ comment }}</p>
+{% endif %}

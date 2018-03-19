@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat:400">
+    <title>Reporte de Gastos</title>
+
+    <style type="text/css">
+        .center-block{
+            display:block;
+            margin-right:auto;
+            margin-left:auto;
+        }
+        p,small{
+            color:#616161;
+            padding-left:15px;
+            padding-right:15px;
+            text-align:justify;
+        }
+        hr{
+            color:#40B0DF;
+            border-color:#40B0DF;
+            text-decoration:none;
+            border-style:outset;
+            border-bottom:none;
+        }
+        table{
+            border-color:#616161;
+            color:#616161;
+        }
+        #expenses td{
+            padding-top:10px;
+            padding-bottom:10px;
+        }
+        #results td{
+            padding-top:15px;
+            padding-bottom:15px;
+        }
+    </style>
+</head>
+<body>
+
+    <table cellspacing="0" cellpadding="0" width="600" border="0">
+        <!-- header logos  -->
+        <tr>
+            <td>
+                <table width="100%" style="padding-bottom:20px">
+                    <tr>
+                        <th align="left" style="background-color:#40B0DF;border-radius:5px;max-width:600px;text-align:center">
+                            <a href="http://vuala.io">
+                                <img alt="Vuala"  src="http://res.cloudinary.com/holavuala/image/upload/v1488241217/assets/logo-inverse.png" width="150" height="40">
+                            </a>
+                            <h5 style="color:#FFFFFF;text-align:center;font-family:sans-serif;padding-top:10px">Nuevo reporte de {{from}}</h5>
+
+                        </th>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!-- header logos  -->
+        
+        <!-- data mails -->
+    <tr>
+        <td>
+            <p style="line-height: 0.3em;font-size:15px"><span style="width: 50px;display: inline-block;">Para:</span> <strong style="color:#000000">{{ to }}</strong></p>
+            <p style="line-height: 0.3em;font-size:15px"><span style="width: 50px;display: inline-block;">De:</span>  <strong style="color:#000000">{{ from }}</strong></p>
+            <p style="line-height: 0.3em;font-size:15px"><span style="width: 50px;display: inline-block;">Fecha:</span> <strong style="color:#000000">{{ created_at | date("d/m/Y")  }}</strong></p>
+        </td>
+    </tr>
+    <!-- data mails -->
+
+    <tr>
+        <td>
+            <div style="width: 100%">
+                <h3 style="padding-left:12px"> ¡Hola {{ to }}! </h3>
+                <p style="padding-left:12px"> {{ from }} ha generado el siguiente reporte de gastos en <strong>Vuala.io</strong> </p>
+                <hr style="color:#e9e9e9; border: solid 1px; width:80%; text-align:center">
+            </div>
+        </td> 
+    </tr>
+
+    <!-- tabla de gastos -->
+    <tr>
+        <td>
+            <table width="100%" style="padding-top:20px" cellspacing="10">
+                <tr >
+                    <td width="50%">
+                        <h3><strong> {{ name }} </strong> </h3>
+                    </td>
+                    <td width="50%">
+                        <strong>Total</strong> <label> ${{ total|number_format(2, '.', ',') }}</label>
+                    </td>
+                </tr>
+                <tr style="padding-top:10px">
+                    <td width="50%" colspan="2">
+                        <strong>Política de reporte:</strong> <label>(Sin política)</label>
+                    </td>
+                </tr>
+            </table>
+
+            <h2>Gastos</h2>
+            <table cellspacing="0" cellpadding="8">
+                    <tr style="text-align:center;background-color:#E9E9E9;color:#615C5C;">
+                    <th style="width:15%">FECHA</th>
+                    <th style="width:15%">COMERCIO</th>
+                    <th style="width:40%">COMENTARIOS</th>
+                    <th style="width:15%">CATEGORIA</th>
+                    <th style="width:15%">TOTAL</th>
+                </tr>
+                {% for exp in expenses %}
+                <tr style="text-align:center;">
+                    <td style="border: 1px solid #E9E9E9;">{{ exp.date | date("d/m/Y")  }}</td>
+                    <td style="border: 1px solid #E9E9E9;">{{ exp.merchantName | default('Desconocido') }}</td>
+                    <td style="border: 1px solid #E9E9E9;">{{ exp.comment }} </td>
+                    <td style="border: 1px solid #E9E9E9;">{{ exp.category.name }}</td>
+                    <td style="border: 1px solid #E9E9E9;">$ {{ exp.total | number_format(2, '.', ',') }}</td>
+                </tr>
+                {% endfor %}
+                <tr style="text-align:center;">
+                    <td colspan="4"></td>
+                    <td><strong>$ {{ total|number_format(2, '.', ',') }}</strong></td>
+                </tr>
+                
+            </table>
+        </td>
+    </tr>
+    <!-- tabla de imagenes -->
+    <tr>
+        <td>
+
+            <h2>Comprobantes de gastos</h2>
+            <table width="100%">
+                {{ expenses_photos| raw }}
+            </table>
+        </td>
+    </tr>
+    <!-- tabla de imagenes -->
+    <!-- tabla de gastos -->
+    <tr>
+    <!-- Footer -->
+    <tr>
+        <td>
+            <div style="text-align: center;padding-top:40px">
+                <a href="http://vuala.io">
+                    <img alt="Vuala"  src="http://res.cloudinary.com/holavuala/image/upload/v1488241217/assets/logo.png" width="150" height="40">
+                </a>
+                <hr style="color:#e9e9e9; border: solid 1px; width:80%; text-align:center">
+
+                <p style="text-align: center;font-size:12px">El App para manejar tus gastos.</p>
+                
+                <a href="https://play.google.com/store/apps/details?id=com.builder.vuala" style="text-align:center" target="_blank">
+                    <img alt="Vualal Google Play" src="http://d9hhrg4mnvzow.cloudfront.net/conoce.vuala.io/control-de-viaticos/a3c9e38a-googleplay_045018044018000000.png" style="width:150px;" >
+                </a>
+
+
+                <a href="https://itunes.apple.com/mx/app/vual%C3%A1-controla-tus-vi%C3%A1ticos/id1179591939?mt=8" style="text-align:center;margin-left:10px" target="_blank">
+                    <img alt="Vualal App Store" src="http://d9hhrg4mnvzow.cloudfront.net/conoce.vuala.io/control-de-viaticos/788b1f96-appstore_045018044018000000.png" style="width:150px;" >
+                </a>
+
+                <p style="text-align: center;font-size:12px">Copyright Vuala {{year}} |    Todos los Derechos Reservados.</p>
+            </div>
+        </td>
+    </tr>
+    <!-- Footer-->
+</table>
+
+</body>
+</html>
