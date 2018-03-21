@@ -54,11 +54,11 @@ class UserController extends BaseController
         $basura = $this->palabrasBasura($data['username']);
 
         if(!isset($data['username']) || $data['username'] == "" || strlen($data['username']) < 1){
-            return array('success' => false, 'msg' => 'Favor de ingresar el usuario');
+            return array('success' => false, 'msg' => 'Favor de ingresar el usuario', 'input' => 'username');
         }
 
         if(!isset($data['password']) || $data['password'] == "" || strlen($data['password']) < 1){
-            return array('success' => false, 'msg' => 'Favor de ingresar la contraseña');
+            return array('success' => false, 'msg' => 'Favor de ingresar la contraseña', 'input' => 'password');
         }
 
 
@@ -75,40 +75,40 @@ class UserController extends BaseController
 
         $data = json_decode($request->getContent(), true);
 
-        if(!isset($data['canal']) || $data['canal'] == "" || strlen($data['canal']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Canal');
+        if(!isset($data['canal']) || $data['canal'] == "" || $data['canal'] == '0' || strlen($data['canal']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Canal', 'input' => 'canal', 'request'=>$data['canal']);
         }
 
-        if(!isset($data['interes']) || $data['interes'] == "" || strlen($data['interes']) < 1){
-            return array('success' => false, 'msg' => 'Elige un ínteres');
+        if(!isset($data['interes']) || $data['interes'] == "" || $data['interes'] == '0' || strlen($data['interes']) < 1){
+            return array('success' => false, 'msg' => 'Elige un ínteres', 'input' => 'interes');
         }
 
         if(!isset($data['name']) || $data['name'] == ""){
-            return array('success' => false, 'msg' => 'Por favor ingresa un nombre');
+            return array('success' => false, 'msg' => 'Por favor ingresa un nombre', 'input' => 'name');
         }else{
             if(!$this->testName($data['name'])){
-                return array('success' => false, 'msg' => 'Nombre inválido');
+                return array('success' => false, 'msg' => 'Nombre inválido', 'input' => 'name');
             }
         }
 
         if(!isset($data['patern']) || $data['patern'] == "" || strlen($data['patern']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno');
+            return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno', 'input' => 'patern');
         }else{
             if(!$this->testName($data['patern'])){
-                return array('success' => false, 'msg' => 'Apellido Paterno inválido');
+                return array('success' => false, 'msg' => 'Apellido Paterno inválido', 'input' => 'patern');
             }
         }
 
         if(!isset($data['matern']) || $data['matern'] == "" || strlen($data['matern']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno');
+            return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno', 'input' => 'matern');
         }else{
             if(!$this->testName($data['matern'])){
-                return array('success' => false, 'msg' => 'Apellido Materno inválido');
+                return array('success' => false, 'msg' => 'Apellido Materno inválido', 'input' => 'matern');
             }
         }
 
         if(!isset($data['mail']) || $data['mail'] == "" || strlen($data['mail']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
+            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido', 'input' => 'mail');
         }else{
             $isFace = substr_count($data['mail'], 'facebook');
             $exp = explode("@",$data['mail']);
@@ -116,16 +116,16 @@ class UserController extends BaseController
             $basura = $this->emailBasura($exp[0]);
             $basuraa = $this->emailBasura($domain[0]);
 
-            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > 0 || $basura || $basuraa) {
-                return array('success' => false, 'msg' => 'Correo Inválido');
+            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > '0' || $basura || $basuraa) {
+                return array('success' => false, 'msg' => 'Correo Inválido', 'input' => 'mail');
             }
         }
 
         if(!isset($data['cel']) || $data['cel'] == "" || strlen($data['cel']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa número de Celular');
+            return array('success' => false, 'msg' => 'Ingresa número de Celular', 'input' => 'cel');
         }else{
-            if(strlen($data['cel']) < 10 || !is_numeric($data['phone'])){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if(strlen($data['cel']) < 10 || !is_numeric($data['cel'])){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos', 'input' => 'cel');
             }
 
             $rest = substr($data['cel'], 0, 6);
@@ -135,16 +135,16 @@ class UserController extends BaseController
             $isconsecc = $this->numerosConsecutivos($restt);
 
 
-            if(!$isconsec || !$isconsecc){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if($isconsec || $isconsecc){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.', 'input' => 'cel');
             }
         }
 
         if(!isset($data['phone']) || $data['phone'] == "" || strlen($data['phone']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa número de Teléfono');
+            return array('success' => false, 'msg' => 'Ingresa número de Teléfono', 'input' => 'phone');
         }else{
             if(strlen($data['phone']) < 10 || !is_numeric($data['phone'])){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos', 'input' => 'phone');
             }
 
             $rest = substr($data['phone'], 0, 6);
@@ -154,37 +154,37 @@ class UserController extends BaseController
             $isconsecc = $this->numerosConsecutivos($restt);
 
 
-            if(!$isconsec || !$isconsecc){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if($isconsec || $isconsecc){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.', 'input' => 'phone');
             }
         }
 
-        if(!isset($data['gender']) || $data['gender'] == "" || strlen($data['gender']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Género');
+        if(!isset($data['gender']) || $data['gender'] == "" || $data['gender'] == '0' || strlen($data['gender']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Género', 'input' => 'gender');
         }
 
         if(!isset($data['birthday']) || $data['birthday'] == "" || strlen($data['birthday']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento');
+            return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento', 'input' => 'birthday');
         }
 
         if(!isset($data['age']) || $data['age'] == "" || strlen($data['age']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa una Edad');
+            return array('success' => false, 'msg' => 'Ingresa una Edad', 'input' => 'age');
         }
 
-        if(!isset($data['interestCampus']) || $data['interestCampus'] == "" || strlen($data['interestCampus']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Campus');
+        if(!isset($data['interestCampus']) || $data['interestCampus'] == "" || $data['interestCampus'] == '0' || strlen($data['interestCampus']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Campus', 'input' => 'interestCampus');
         }
 
-        if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || strlen($data['interestNivel']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Área de Interés');
+        if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || $data['interestNivel'] == '0' || strlen($data['interestNivel']) < 1){
+            return array('success' => false, 'msg' => 'Elige una Área de Interés', 'input' => 'interestNivel');
         }
 
-        if(!isset($data['citaCampus']) || $data['citaCampus'] == "" || strlen($data['citaCampus']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Campus');
+        if(!isset($data['citaCampus']) || $data['citaCampus'] == "" || $data['citaCampus'] == '0' || strlen($data['citaCampus']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Campus', 'input' => 'citaCampus');
         }
 
-        if(!isset($data['tipificacion']) || $data['tipificacion'] == "" || strlen($data['tipificacion']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Tipificación');
+        if(!isset($data['tipificacion']) || $data['tipificacion'] == "" || $data['tipificacion'] == '0' || strlen($data['tipificacion']) < 1){
+            return array('success' => false, 'msg' => 'Elige una Tipificación', 'input' => 'tipificacion');
         }
 
         //age,canal,cel,celRegis,citaAsesor,citaCall,citaCampus,citaTransfer,citadate,csq,gender,interes,interestArea,interestCampus,interestCareer,interestCycle,interestModel,interestNivel,mail,mailRegis,matern,maternRegis,name,nameRegis,note,patern,paternRegis,phone,phoneRegis,prent,sinmail,tipificacion,user
@@ -203,52 +203,52 @@ class UserController extends BaseController
 
         $data = json_decode($request->getContent(), true);
 
-        if(!isset($data['subActivity']) || $data['subActivity'] == "" || strlen($data['subActivity']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Sub tipo de Actividad');
+        if(!isset($data['subActivity']) || $data['subActivity'] == "" || $data['subActivity'] == '0' || strlen($data['subActivity']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Sub tipo de Actividad', 'input' => 'subActivity');
         }
 
-        if(!isset($data['company']) || $data['company'] == "" || strlen($data['company']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Escuela/Empresa');
+        if(!isset($data['company']) || $data['company'] == "" || $data['company'] == '0' || strlen($data['company']) < 1){
+            return array('success' => false, 'msg' => 'Elige una Escuela/Empresa', 'input' => 'company');
         }
 
-         if(!isset($data['subsubActivity']) || $data['subsubActivity'] == "" || strlen($data['subsubActivity']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Sub Sub tipo de Actividad');
+         if(!isset($data['subsubActivity']) || $data['subsubActivity'] == "" || $data['subsubActivity'] == '0' || strlen($data['subsubActivity']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Sub Sub tipo de Actividad', 'input' => 'subsubActivity');
         }
 
-        if(!isset($data['tourn']) || $data['tourn'] == "" || strlen($data['tourn']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Turno');
+        if(!isset($data['tourn']) || $data['tourn'] == "" || $data['tourn'] == '0' || strlen($data['tourn']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Turno', 'input' => 'tourn');
         }
 
-        if(!isset($data['school']) || $data['school'] == "" || strlen($data['school']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Escuela/Empresa');
+        if(!isset($data['school']) || $data['school'] == "" || $data['school'] == '0' || strlen($data['school']) < 1){
+            return array('success' => false, 'msg' => 'Elige una Escuela/Empresa', 'input' => 'school');
         }
 
         if(!isset($data['name']) || $data['name'] == ""){
-            return array('success' => false, 'msg' => 'Por favor ingresa un nombre');
+            return array('success' => false, 'msg' => 'Por favor ingresa un nombre', 'input' => 'name');
         }else{
             if(!$this->testName($data['name'])){
-                return array('success' => false, 'msg' => 'Nombre inválido');
+                return array('success' => false, 'msg' => 'Nombre inválido', 'input' => 'name');
             }
         }
 
         if(!isset($data['patern']) || $data['patern'] == "" || strlen($data['patern']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno');
+            return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno', 'input' => 'patern');
         }else{
             if(!$this->testName($data['patern'])){
-                return array('success' => false, 'msg' => 'Apellido Paterno inválido');
+                return array('success' => false, 'msg' => 'Apellido Paterno inválido', 'input' => 'patern');
             }
         }
 
         if(!isset($data['matern']) || $data['matern'] == "" || strlen($data['matern']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno');
+            return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno', 'input' => 'matern');
         }else{
             if(!$this->testName($data['matern'])){
-                return array('success' => false, 'msg' => 'Apellido Materno inválido');
+                return array('success' => false, 'msg' => 'Apellido Materno inválido', 'input' => 'matern');
             }
         }
 
         if(!isset($data['mail']) || $data['mail'] == "" || strlen($data['mail']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
+            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido', 'input' => 'mail');
         }else{
             $isFace = substr_count($data['mail'], 'facebook');
             $exp = explode("@",$data['mail']);
@@ -256,16 +256,16 @@ class UserController extends BaseController
             $basura = $this->emailBasura($exp[0]);
             $basuraa = $this->emailBasura($domain[0]);
 
-            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > 0 || $basura || $basuraa) {
-                return array('success' => false, 'msg' => 'Correo Inválido');
+            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > '0' || $basura || $basuraa) {
+                return array('success' => false, 'msg' => 'Correo Inválido', 'input' => 'mail');
             }
         }
 
         if(!isset($data['cel']) || $data['cel'] == "" || strlen($data['cel']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa número de Celular');
+            return array('success' => false, 'msg' => 'Ingresa número de Celular', 'input' => 'cel');
         }else{
-            if(strlen($data['cel']) < 10 || !is_numeric($data['phone'])){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if(strlen($data['cel']) < 10 || !is_numeric($data['cel'])){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos', 'input' => 'cel');
             }
 
             $rest = substr($data['cel'], 0, 6);
@@ -275,16 +275,16 @@ class UserController extends BaseController
             $isconsecc = $this->numerosConsecutivos($restt);
 
 
-            if(!$isconsec || !$isconsecc){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if($isconsec || $isconsecc){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.', 'input' => 'cel');
             }
         }
 
         if(!isset($data['phone']) || $data['phone'] == "" || strlen($data['phone']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa número de Teléfono');
+            return array('success' => false, 'msg' => 'Ingresa número de Teléfono', 'input' => 'phone');
         }else{
             if(strlen($data['phone']) < 10 || !is_numeric($data['phone'])){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos', 'input' => 'phone');
             }
 
             $rest = substr($data['phone'], 0, 6);
@@ -294,29 +294,29 @@ class UserController extends BaseController
             $isconsecc = $this->numerosConsecutivos($restt);
 
 
-            if(!$isconsec || !$isconsecc){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if($isconsec || $isconsecc){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.', 'input' => 'phone');
             }
         }
 
-        if(!isset($data['gender']) || $data['gender'] == "" || strlen($data['gender']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Género');
+        if(!isset($data['gender']) || $data['gender'] == "" || $data['gender'] == '0' || strlen($data['gender']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Género', 'input' => 'gender');
         }
 
         if(!isset($data['birthday']) || $data['birthday'] == "" || strlen($data['birthday']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento');
+            return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento', 'input' => 'birthday');
         }
 
         if(!isset($data['age']) || $data['age'] == "" || strlen($data['age']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa una Edad');
+            return array('success' => false, 'msg' => 'Ingresa una Edad', 'input' => 'age');
         }
 
-        if(!isset($data['interestCampus']) || $data['interestCampus'] == "" || strlen($data['interestCampus']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Campus');
+        if(!isset($data['interestCampus']) || $data['interestCampus'] == "" || $data['interestCampus'] == '0' || strlen($data['interestCampus']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Campus', 'input' => 'interestCampus');
         }
 
-        if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || strlen($data['interestNivel']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Área de Interés');
+        if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || $data['interestNivel'] == '0' || strlen($data['interestNivel']) < 1){
+            return array('success' => false, 'msg' => 'Elige una Área de Interés', 'input' => 'interestNivel');
         }
 
 
@@ -334,31 +334,31 @@ class UserController extends BaseController
         $data = json_decode($request->getContent(), true);
 
         if(!isset($data['name']) || $data['name'] == ""){
-            return array('success' => false, 'msg' => 'Por favor ingresa un nombre');
+            return array('success' => false, 'msg' => 'Por favor ingresa un nombre', 'input' => 'name');
         }else{
             if(!$this->testName($data['name'])){
-                return array('success' => false, 'msg' => 'Nombre inválido');
+                return array('success' => false, 'msg' => 'Nombre inválido', 'input' => 'name');
             }
         }
 
         if(!isset($data['patern']) || $data['patern'] == "" || strlen($data['patern']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno');
+            return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno', 'input' => 'patern');
         }else{
             if(!$this->testName($data['patern'])){
-                return array('success' => false, 'msg' => 'Apellido Paterno inválido');
+                return array('success' => false, 'msg' => 'Apellido Paterno inválido', 'input' => 'patern');
             }
         }
 
         if(!isset($data['matern']) || $data['matern'] == "" || strlen($data['matern']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno');
+            return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno', 'input' => 'matern');
         }else{
             if(!$this->testName($data['matern'])){
-                return array('success' => false, 'msg' => 'Apellido Materno inválido');
+                return array('success' => false, 'msg' => 'Apellido Materno inválido', 'input' => 'matern');
             }
         }
 
         if(!isset($data['mail']) || $data['mail'] == "" || strlen($data['mail']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
+            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido', 'input' => 'mail');
         }else{
             $isFace = substr_count($data['mail'], 'facebook');
             $exp = explode("@",$data['mail']);
@@ -366,16 +366,16 @@ class UserController extends BaseController
             $basura = $this->emailBasura($exp[0]);
             $basuraa = $this->emailBasura($domain[0]);
 
-            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > 0 || $basura || $basuraa) {
-                return array('success' => false, 'msg' => 'Correo Inválido');
+            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > '0' || $basura || $basuraa) {
+                return array('success' => false, 'msg' => 'Correo Inválido', 'input' => 'mail');
             }
         }
 
         if(!isset($data['cel']) || $data['cel'] == "" || strlen($data['cel']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa número de Celular');
+            return array('success' => false, 'msg' => 'Ingresa número de Celular', 'input' => 'cel');
         }else{
-            if(strlen($data['cel']) < 10 || !is_numeric($data['phone'])){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if(strlen($data['cel']) < 10 || !is_numeric($data['cel'])){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos', 'input' => 'cel');
             }
 
             $rest = substr($data['cel'], 0, 6);
@@ -385,16 +385,16 @@ class UserController extends BaseController
             $isconsecc = $this->numerosConsecutivos($restt);
 
 
-            if(!$isconsec || !$isconsecc){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if($isconsec || $isconsecc){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.', 'input' => 'cel');
             }
         }
 
         if(!isset($data['phone']) || $data['phone'] == "" || strlen($data['phone']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa número de Teléfono');
+            return array('success' => false, 'msg' => 'Ingresa número de Teléfono', 'input' => 'phone');
         }else{
             if(strlen($data['phone']) < 10 || !is_numeric($data['phone'])){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos', 'input' => 'phone');
             }
 
             $rest = substr($data['phone'], 0, 6);
@@ -404,29 +404,29 @@ class UserController extends BaseController
             $isconsecc = $this->numerosConsecutivos($restt);
 
 
-            if(!$isconsec || !$isconsecc){
-                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+            if($isconsec || $isconsecc){
+                return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.', 'input' => 'phone');
             }
         }
 
-        if(!isset($data['gender']) || $data['gender'] == "" || strlen($data['gender']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Género');
+        if(!isset($data['gender']) || $data['gender'] == "" || $data['gender'] == '0' || strlen($data['gender']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Género', 'input' => 'gender');
         }
 
         if(!isset($data['birthday']) || $data['birthday'] == "" || strlen($data['birthday']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento');
+            return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento', 'input' => 'birthday');
         }
 
         if(!isset($data['age']) || $data['age'] == "" || strlen($data['age']) < 1){
-            return array('success' => false, 'msg' => 'Ingresa una Edad');
+            return array('success' => false, 'msg' => 'Ingresa una Edad', 'input' => 'age');
         }
 
-        if(!isset($data['interestCampus']) || $data['interestCampus'] == "" || strlen($data['interestCampus']) < 1){
-            return array('success' => false, 'msg' => 'Elige un Campus');
+        if(!isset($data['interestCampus']) || $data['interestCampus'] == "" || $data['interestCampus'] == '0' || strlen($data['interestCampus']) < 1){
+            return array('success' => false, 'msg' => 'Elige un Campus', 'input' => 'interestCampus');
         }
 
-        if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || strlen($data['interestNivel']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Área de Interés');
+        if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || $data['interestNivel'] == '0' || strlen($data['interestNivel']) < 1){
+            return array('success' => false, 'msg' => 'Elige una Área de Interés', 'input' => 'interestNivel');
         }
 
 
@@ -444,7 +444,7 @@ class UserController extends BaseController
         $data = json_decode($request->getContent(), true);
 
         if(!isset($data['mail']) || $data['mail'] == "" || strlen($data['mail']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
+            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido', 'input' => 'mail');
         }else{
             $isFace = substr_count($data['mail'], 'facebook');
             $exp = explode("@",$data['mail']);
@@ -452,8 +452,8 @@ class UserController extends BaseController
             $basura = $this->emailBasura($exp[0]);
             $basuraa = $this->emailBasura($domain[0]);
 
-            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > 0 || $basura || $basuraa) {
-                return array('success' => false, 'msg' => 'Correo Inválido');
+            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > '0' || $basura || $basuraa) {
+                return array('success' => false, 'msg' => 'Correo Inválido', 'input' => 'mail');
             }
         }
 
@@ -472,7 +472,7 @@ class UserController extends BaseController
         $data = json_decode($request->getContent(), true);
 
         if(!isset($data['mail']) || $data['mail'] == "" || strlen($data['mail']) < 1){
-            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
+            return array('success' => false, 'msg' => 'Por favor ingresa un correo válido', 'input' => 'mail');
         }else{
             $isFace = substr_count($data['mail'], 'facebook');
             $exp = explode("@",$data['mail']);
@@ -480,8 +480,8 @@ class UserController extends BaseController
             $basura = $this->emailBasura($exp[0]);
             $basuraa = $this->emailBasura($domain[0]);
 
-            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > 0 || $basura || $basuraa) {
-                return array('success' => false, 'msg' => 'Correo Inválido');
+            if (!filter_var($data['mail'], FILTER_VALIDATE_EMAIL) || $isFace > '0' || $basura || $basuraa) {
+                return array('success' => false, 'msg' => 'Correo Inválido', 'input' => 'mail');
             }
         }
 
