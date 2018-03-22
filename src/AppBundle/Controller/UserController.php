@@ -41,6 +41,113 @@ class UserController extends BaseController
         return array("success" => true, "msg" => "api de landings");
     }
 
+    /**
+     *
+     * @REST\Post("/landing/valid-input")
+     * @return View
+     */
+    public function landingValidNameAction(Request $request) {
+
+        $data = json_decode($request->getContent(), true);
+
+        $basura = $this->palabrasBasura($data['data']);
+
+        switch ($data['type']) {
+            case 'name':
+                if(!isset($data['data']) || $data['data'] == ""){
+                    return array('success' => false, 'msg' => 'Por favor ingresa un nombre');
+                }else{
+                    if(!$this->testName($data['data'])){
+                        return array('success' => false, 'msg' => 'Nombre inválido');
+                    }
+                }
+                break;
+            case 'mail':
+                if(!isset($data['data']) || $data['data'] == "" || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
+                }else{
+                    $isFace = substr_count($data['data'], 'facebook');
+                    $exp = explode("@",$data['data']);
+                    $domain = explode(".",$exp[1]);
+                    $basura = $this->emailBasura($exp[0]);
+                    $basuraa = $this->emailBasura($domain[0]);
+
+                    if (!filter_var($data['data'], FILTER_VALIDATE_EMAIL) || $isFace > '0' || $basura || $basuraa) {
+                        return array('success' => false, 'msg' => 'Correo Inválido');
+                    }
+                }
+                break;
+            case 'cel':
+                if(!isset($data['data']) || $data['data'] == "" || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Ingresa número de Celular');
+                }else{
+                    if(strlen($data['data']) < 10 || !is_numeric($data['data'])){
+                        return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+                    }
+
+                    $rest = substr($data['data'], 0, 6);
+                    $restt = substr($data['data'], 4, 10);
+
+                    $isconsec = $this->numerosConsecutivos($rest);
+                    $isconsecc = $this->numerosConsecutivos($restt);
+
+
+                    if($isconsec || $isconsecc){
+                        return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.');
+                    }
+                }
+                break;
+            case 'phone':
+                if(!isset($data['data']) || $data['data'] == "" || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Ingresa número de Teléfono');
+                }else{
+                    if(strlen($data['data']) < 10 || !is_numeric($data['data'])){
+                        return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos');
+                    }
+
+                    $rest = substr($data['data'], 0, 6);
+                    $restt = substr($data['data'], 4, 10);
+
+                    $isconsec = $this->numerosConsecutivos($rest);
+                    $isconsecc = $this->numerosConsecutivos($restt);
+
+
+                    if($isconsec || $isconsecc){
+                        return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.');
+                    }
+                }
+                break;
+            case 'gender':
+                if(!isset($data['data']) || $data['data'] == "" || $data['data'] == '0' || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Elige un Género');
+                }
+                break;
+            case 'birthday':
+                if(!isset($data['data']) || $data['data'] == "" || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Ingresa una Fecha de Nacimiento');
+                }
+                break;
+            case 'age':
+                if(!isset($data['data']) || $data['data'] == "" || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Ingresa una Edad');
+                }
+                break;
+            case 'interestCampus':
+                if(!isset($data['data']) || $data['data'] == "" || $data['data'] == '0' || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Elige un Campus');
+                }
+                break;
+            case 'interestNivel':
+                if(!isset($data['data']) || $data['data'] == "" || $data['data'] == '0' || strlen($data['data']) < 1){
+                    return array('success' => false, 'msg' => 'Elige una Área de Interés');
+                }
+                break;
+        }
+        
+
+        return array('success' => true, 'basura' => $basura);
+    }
+
 
     /**
      *
