@@ -27,16 +27,8 @@
         "jms/serializer-bundle": "^1.1",
         "hwi/oauth-bundle": "^0.3.9",
         "twitter/bootstrap": "2.3.*",
-        "javihgil/nexmo-bundle": "dev-master",
         "nelmio/cors-bundle": "^1.4",
-        "twig/twig": "^1.24",
-        "smalot/pdfparser": "^0.9.25",
-        "whiteoctober/tcpdf-bundle": "^1.0",
-        "noiselabs/nusoap-bundle": "^0.2.2",
-        "sendgrid/sendgrid": "^5.1",
-        "misteio/cloudinary-bundle": "^0.1.0",
-        "richsage/rms-push-notifications-bundle": "^0.2.2",
-        "nc/faye-client": "^1.1"
+        "twig/twig": "^1.24"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

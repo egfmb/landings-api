@@ -2,7 +2,7 @@ Master Symfony 2.6.7
 
 First clone the project
 *******
-$ git clone git clone git@bitbucket.org:montedonico/master.git
+$ git clone 
 *******
 
 Install the composer

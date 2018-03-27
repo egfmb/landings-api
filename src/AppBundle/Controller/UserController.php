@@ -62,6 +62,24 @@ class UserController extends BaseController
                     }
                 }
                 break;
+            case 'patern':
+                if(!isset($data['data']) || $data['data'] == ""){
+                    return array('success' => false, 'msg' => 'Por favor ingresa un apellido paterno');
+                }else{
+                    if(!$this->testName($data['data'])){
+                        return array('success' => false, 'msg' => 'Apellido Paterno inválido');
+                    }
+                }
+                break;
+            case 'matern':
+                if(!isset($data['data']) || $data['data'] == ""){
+                    return array('success' => false, 'msg' => 'Por favor ingresa un apellido materno');
+                }else{
+                    if(!$this->testName($data['data'])){
+                        return array('success' => false, 'msg' => 'Apellido Materno inválido');
+                    }
+                }
+                break;
             case 'mail':
                 if(!isset($data['data']) || $data['data'] == "" || strlen($data['data']) < 1){
                     return array('success' => false, 'msg' => 'Por favor ingresa un correo válido');
@@ -92,7 +110,7 @@ class UserController extends BaseController
                     $isconsecc = $this->numerosConsecutivos($restt);
 
 
-                    if($isconsec || $isconsecc){
+                    if($isconsec || $isconsecc) {
                         return array('success' => false, 'msg' => 'Al menos debe contener 10 dígitos.');
                     }
                 }
@@ -143,7 +161,7 @@ class UserController extends BaseController
                 }
                 break;
         }
-        
+
 
         return array('success' => true, 'basura' => $basura);
     }
@@ -184,6 +202,10 @@ class UserController extends BaseController
 
         if(!isset($data['canal']) || $data['canal'] == "" || $data['canal'] == '0' || strlen($data['canal']) < 1){
             return array('success' => false, 'msg' => 'Elige un Canal', 'input' => 'canal', 'request'=>$data['canal']);
+        }
+
+        if(!isset($data['csq']) || $data['csq'] == "" || $data['csq'] == '0' || strlen($data['csq']) < 1){
+            return array('success' => false, 'msg' => 'Elige un CSQ', 'input' => 'csq', 'request'=>$data['csq']);
         }
 
         if(!isset($data['interes']) || $data['interes'] == "" || $data['interes'] == '0' || strlen($data['interes']) < 1){
@@ -283,7 +305,7 @@ class UserController extends BaseController
         }
 
         if(!isset($data['interestNivel']) || $data['interestNivel'] == "" || $data['interestNivel'] == '0' || strlen($data['interestNivel']) < 1){
-            return array('success' => false, 'msg' => 'Elige una Área de Interés', 'input' => 'interestNivel');
+            return array('success' => false, 'msg' => 'Elige una Nivel', 'input' => 'interestNivel');
         }
 
         if(!isset($data['citaCampus']) || $data['citaCampus'] == "" || $data['citaCampus'] == '0' || strlen($data['citaCampus']) < 1){

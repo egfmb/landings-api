@@ -5,18 +5,6 @@ parameters:
     sms.param:  phone
     mail.class: AppBundle\Services\MailSend
     mail.param: mail, subject, html
-    mail.apikey: [%sendgrid_apikey%]
-    acme_demo.faye.endpoint:      'http://localhost:3000/'
-    acme_demo.faye.adapter.class: 'Nc\FayeClient\Adapter\CurlAdapter'
-    acme_demo.faye.client.class:  'Nc\FayeClient\Client'
 
 
 services:
-    acme_demo.faye.adapter:
-        class:     %acme_demo.faye.adapter.class%
-
-    acme_demo.faye.client:
-        class:     %acme_demo.faye.client.class%
-        arguments:
-                - @acme_demo.faye.adapter
-                - %acme_demo.faye.endpoint%
